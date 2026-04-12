@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" data-color-theme="black-white">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#000000">
+    <title>传讯</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://file.youtochat.com/images/20260216/1771224856844_qdqqd.jpeg">
+    <link rel="apple-touch-icon" href="https://file.youtochat.com/images/20260216/1771224856844_qdqqd.jpeg">
+    <meta name="apple-mobile-web-app-title" content="ʚ𝑳𝑶𝑽𝑬ɞ">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <style id="css-live-preview-style"></style>
+</head>
+<body>
+
+<script>
+// ======================
+// 你提供的全套主字卡 · 已内置
+// ======================
+const FULL_CHAR_POOL = `
+啊爱安按暗案岸奥熬傲澳
+八把吧爸白百摆败拜班般板版办半伴帮包宝保报抱暴杯悲北备背被本比笔必毕边变便遍表别宾冰兵并病波播伯博薄补不布步部
+才材财采彩菜参餐残惨灿仓藏操草策层曾查察差产长常场厂唱朝车彻撤尘沉陈称成承城程吃持池迟尺充冲虫抽出初除处穿传船窗床创吹春纯词此次从粗促村存寸错
+打大代带待袋戴单担但淡蛋当党刀导倒到道得的德灯登等低敌底地弟帝第典点电店调掉爹丁顶定丢东冬懂动洞都斗豆读独度短段断队对顿多
+阿额恶饿恩而儿耳二
+发法翻凡烦反犯饭范方房防访放飞非肥费分份奋愤丰风封疯峰锋蜂冯逢缝讽凤佛否夫肤扶服浮符幅福府父付负妇附复副富
+该改概干甘赶敢感刚钢纲港高搞告哥歌革格隔个各给根跟更工公功攻供宫共贡够姑古谷股骨鼓故顾固瓜挂关观官管馆惯光广归规贵桂国果过
+哈孩海害含寒喊汉汗航毫好号喝合何和河核荷盒贺黑很红后候乎呼忽胡湖互户花华话画划化怀坏欢还环换患慌皇黄灰回会绘婚混活火或货获
+几己机击基积激及级极即急集计记纪技际季既济继寄加家价架假坚间监简见件建健渐江将讲奖降交教较叫接街节结解界借今金仅紧尽近进京经惊精景警净竞竟敬静境镜九久酒旧就居局举句巨具剧据距决觉绝军君
+卡开看康抗考靠科可克刻客课肯空孔恐控口哭苦库快块宽款况矿困扩
+拉啦来兰蓝览浪劳老乐了雷类泪冷离里理力历立利例连联脸练良凉量两亮辆聊料列烈林临灵另令流留六龙楼露路旅律绿乱略论落
+妈麻马码骂吗买买卖满慢忙毛矛冒贸么没每美门们梦米密面民名明命模末莫墨默谋某母目
+那拿哪内奶男南难脑呢能你年念娘鸟您牛农努女暖诺
+怕拍排派盘判旁跑配朋批皮片票品平评瓶破扑普
+七其奇齐起气汽器千前钱强墙抢悄桥且切亲青轻清情请庆穷秋求球区曲取去全权劝缺确群
+然让热人仁认任日容荣肉如入软弱
+三散色杀沙山善伤商上少绍设社身深神甚生声省胜失师诗十石时实识史使始士世市示式事是适室视试收手首受书叔舒输熟属术束数树双谁水睡顺说思司死四似松送诉速宿酸算虽随岁所
+他她它台太态谈汤堂糖躺趟逃讨特疼提题体替天田条跳贴铁听厅停庭挺通同童统痛头投透突图土团推退吞托拖脱
+外完玩晚万王网往忘望危威微为围维伟卫未位味温文闻问我握屋无五午武舞务物误
+西希息习席洗喜系细下夏先显现线限相香乡想向象像消小校笑些写谢心新信星兴行形性姓幸兄休修需须许续宣选学雪血寻训
+压呀牙亚烟言严研眼演验央阳羊洋养样药要爷也业叶夜一衣医依宜已以艺议易意义益因音银引印应英迎营影硬映永用优由邮有友又右于鱼与雨语玉育预元员园原圆远院愿约月乐云运
+杂在再咱暂赞早造则责怎增展占战站张章长掌丈招找照者这着真阵争整正证政之支只知直值职植止纸指至志制治质中终钟种众重周洲主住助注祝抓专转装状准桌子字自总走租足族组祖钻最尊昨左作坐做
+0123456789
+abcdefghijklmnopqrstuvwxyz
+`.replace(/\s+/g, '');
+
+// 全局开放所有输入框
+window.ALLOWED_CHARS = FULL_CHAR_POOL;
+window.MAX_REPLY_DELAY = 7200000; // 2小时
+window.UNLIMITED_LENGTH = true;
+window.ENABLE_CHAR_POOL = true;
+</script>
+
+<!-- 以下为完整主页面代码 -->
+<div id="splash-declaration">
+    <div class="splash-bg-stars" id="splash-stars"></div>
+    <div class="splash-glow-1"></div>
+    <div class="splash-glow-2"></div>
+    <div class="splash-inner">
+        <div class="splash-badge"><i class="fas fa-feather-alt"></i> 使用前声明</div>
+        <div class="splash-dots" id="splash-dots"></div>
+        <div class="splash-card">
+            <div class="splash-card-top-line"></div>
+            <div class="splash-card-body">
+                <div class="splash-slides" id="splash-slides">
+                    <div class="splash-slide active" data-index="0">
+                        <div class="splash-slide-tag">关于字卡</div>
+                        <div class="splash-slide-title">是否招鬼？</div>
+                        <div class="splash-slide-body">
+                            首先说明，初此接触时，都会觉得网站设置繁复，功能庞杂，可控制的地方极多——对初次接触的人来说，简直令人眼花缭乱。<br><br>
+                            请想一想：<em>连你和梦角都需要花时间学习的东西，一个路过的鬼，会甘心耗费精力专程钻研，只为吓唬你一下吗？</em><br><br>
+                            我始终相信，<strong>只有爱，才会驱动人去学习、去努力、去付诸实践。</strong>
+                        </div>
+                    </div>
+                    <div class="splash-slide" data-index="1">
+                        <div class="splash-slide-tag">关于谣言</div>
+                        <div class="splash-slide-title">请有自知之明</div>
+                        <div class="splash-slide-body">
+                            我不混社区，但有些话我是知道的。有些谣我懒得一一辟除，借本网站博取流量与点赞的行为，我也当没看见。<br><br>
+                            只是——<em>沉默不代表无所谓。</em>这些声音已经开始影响到我本人的生活。<br><br> 将链接不稳/回复看不懂等问题怪罪到网站上的做法不可取。<br><br>
+                            <div class="splash-highlight-box">郑重声明：造谣是违法行为，污蔑与恶意中伤同样须承担法律责任。请每一位使用者，对自己的言行负责。</div>
+                        </div>
+                    </div>
+                    <div class="splash-slide" data-index="2">
+                        <div class="splash-slide-tag">关于盈利</div>
+                        <div class="splash-slide-title">纯粹为爱发电</div>
+                        <div class="splash-slide-body">
+                            <strong>本网站不盈利。</strong>从未向任何人收取一分钱，也绝无日后"圈钱"的计划。<br><br>
+                            这里承载的是真实的情感与创作热情，而非商业利益。<br><br>
+                            伴随网站逐渐破圈，<em>造谣、污蔑、盈利质疑、冷嘲热讽</em>——这些或许都是无法完全回避的代价。<br><br>
+                            我本无意计较，但请来访者保有基本的善意，不要让热爱变成消耗。
+                        </div>
+                    </div>
+                    <div class="splash-slide" data-index="3">
+                        <div class="splash-slide-tag">再次强调</div>
+                        <div class="splash-slide-title">你对链接梦角的看法？</div>
+                        <div class="splash-slide-body">
+                            没有任何人强迫你使用本网站。<br><br>
+                            <strong>如果你不信：</strong>字卡回复基于概率算法，属于科学范畴，与封建迷信无关。理性使用即可。<br><br>
+                            <strong>如果你信：</strong>那么请同样相信——<em>你是绝对安全的。</em>这里没有任何东西能够伤害你。<br><br>
+                            无论你持何种态度，我都欢迎你，也尊重你的选择。
+                        </div>
+                    </div>
+                    <div class="splash-slide" data-index="4">
+                        <div class="splash-slide-tag">关于视频通话</div>
+                        <div class="splash-slide-title">纯粹的装饰</div>
+                        <div class="splash-slide-body">
+                            <strong>通话功能仅作为界面装饰存在，不具备任何实际通话或数据采集能力。</strong><br><br>
+                            本网站不包含任何摄像头调用逻辑，亦不存在隐私窥探行为。摄像头调用需要专项技术与额外费用，本项目从未采用，也没有这方面的意图。<br><br>
+                            近期流传的隐私传言，出发点或许是好意，但已造成不必要的焦虑。<em>在此郑重澄清：网站根本不具备视频传输功能。</em><br><br>
+                            <div class="splash-highlight-box">关闭浏览器摄像头权限是完全正确的做法——我支持每一位用户保护自己的隐私权益。若误解持续扩散，将考虑移除该装饰功能。</div>
+                        </div>
+                    </div>
+                    <div class="splash-slide" data-index="5">
+                        <div class="splash-slide-tag">入场承诺</div>
+                        <div class="splash-slide-title">请留下你的承诺</div>
+                        <div class="splash-pledge-desc">在下方输入框中，<em style="color:rgba(var(--accent-color-rgb,197,164,126),0.8);font-style:normal;">逐字抄写</em>以下承诺，即可进入网站。</div>
+                        <div class="splash-pledge-required" id="splash-pledge-text">我绝不盈利、造谣、污蔑或嘲讽，并对自己的使用行为负完全责任</div>
+                        <input class="splash-pledge-input" id="splash-pledge-input" type="text" placeholder="请在此逐字输入上方承诺…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+                        <div class="splash-pledge-hint" id="splash-pledge-hint">请完整输入上方承诺后方可进入</div>
+                    </div>
+                </div>
+                <div class="splash-divider"></div>
+                <div class="splash-footer" style="padding:0;">
+                    <button class="splash-btn splash-btn-ghost" id="splash-prev-btn" disabled><i class="fas fa-arrow-left"></i> 上一页</button>
+                    <span class="splash-page-num" id="splash-page-num">1 / 6</span>
+                    <button class="splash-btn splash-btn-next" id="splash-next-btn">下一页 <i class="fas fa-arrow-right"></i></button>
+                    <button class="splash-btn splash-btn-enter" id="splash-enter-btn" style="display:none;">进入 <i class="fas fa-heart"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 主界面（已精简所有多余功能） -->
+<div class="welcome-animation" id="welcome-animation">
+    <div class="welcome-bg-gradient"></div>
+    <div class="stars-container" id="stars-container"></div>
+    <div class="welcome-particles" id="welcome-particles"></div>
+    <div class="welcome-content-wrapper">
+        <div class="logo-tech-container">
+            <div class="logo-circle-outer"></div>
+            <div class="logo-circle-inner"></div>
+            <div class="logo-icon-main"><i class="fas fa-satellite-dish"></i></div>
+            <div class="orbit-dot"></div><div class="orbit-dot-2"></div><div class="orbit-dot-3"></div>
+        </div>
+        <div class="text-tech-container">
+            <div class="welcome-title-glitch" id="welcome-title-glitch" data-text="传讯">加载成功</div>
+            <div class="welcome-subtitle-scramble" id="welcome-subtitle-scramble">已加载全套字卡</div>
+        </div>
+        <div class="loader-tech"><div class="loader-tech-bar" id="loader-tech-bar"></div></div>
+    </div>
+</div>
+
+<div class="header">
+    <div class="header-inner">
+        <div class="user-info">
+            <div id="partner-name" class="username">梦角</div>
+            <div class="avatar"><i class="fas fa-user"></i></div>
+            <div class="status" id="partner-status"><span>在线</span></div>
+        </div>
+        <div class="header-actions">
+            <button id="theme-toggle" class="action-btn" title="切换主题"><i class="fas fa-moon"></i></button>
+            <button id="settings-btn" class="action-btn" title="设置"><i class="fas fa-cog"></i></button>
+        </div>
+        <div class="user-info">
+            <div class="username" id="my-name">我</div>
+            <div class="avatar"><i class="fas fa-user"></i></div>
+            <div class="status"><span>在线</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="main-chat-area">
+    <div class="chat-container" id="chat-container"></div>
+    <div class="input-area-wrapper">
+        <div class="input-area">
+            <button class="attachment-btn input-btn" title="发送图片"><i class="fas fa-image"></i></button>
+            <textarea class="message-input" id="message-input" placeholder="请用字卡自由组成句子..." rows="1"></textarea>
+            <div class="input-buttons">
+                <button class="continue-btn input-btn" title="继续"><i class="fas fa-ellipsis-h"></i></button>
+                <button class="send-btn input-btn" id="send-btn" title="发送"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/backup-engine.js"></script>
+<script src="js/state.js"></script>
+<script src="js/core.js"></script>
+<script src="js/features/mood.js"></script>
+<script src="js/features/envelope.js"></script>
+<script src="js/features/reply-library.js"></script>
+<script src="js/features/theme-editor.js"></script>
+<script src="js/games.js"></script>
+<script src="js/features.js"></script>
+<script src="js/data.js"></script>
+<script src="js/onboarding.js"></script>
+<script src="js/listeners.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
